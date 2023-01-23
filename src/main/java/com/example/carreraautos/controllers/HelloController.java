@@ -26,8 +26,10 @@ public class HelloController implements Observer {
 
     @FXML
     private AnchorPane rootScene;
+    private Line line;
 
-    private Circle v1;
+    //private Circle v1;
+    private ImageView v1;
     private Circle v2;
     private Circle v3;
     private Chofer c1;
@@ -55,9 +57,10 @@ public class HelloController implements Observer {
     @FXML
     void btnPrepararOnMouse(MouseEvent event) {
         //Circulo 1
-        v1 = new Circle(10, Color.WHITE);
+        v1 = new ImageView(new Image(getClass().getResourceAsStream("/assets/imgs/auto1.png")));
+        //v1 = new Circle(10, Color.WHITE);
         v1.setLayoutX(20);
-        v1.setLayoutY(60);
+        v1.setLayoutY(30);
         //Circulo 2
         v2 = new Circle(10, Color.WHITE);
         v2.setLayoutX(20);
@@ -75,7 +78,7 @@ public class HelloController implements Observer {
     public void initialize(){
         ImageView fondo = new ImageView(new Image(getClass().getResourceAsStream("/assets/imgs/pista.png")));
         rootScene.getChildren().add(fondo);
-        Line line = new Line(590,0,590,400);
+        line = new Line(590,0,590,400);
         line.setStrokeWidth(5);
         line.setStroke(Color.RED);
         rootScene.getChildren().add(line);
@@ -95,10 +98,15 @@ public class HelloController implements Observer {
             case 3:
                 Platform.runLater(()-> v3.setLayoutX(pos.getX()));
         }
-        //Detener vehículo
-        if (pos.getX() + 10 > 590){
+        //Detener vehiculo 1
+        if (v1.getBoundsInParent().intersects(line.getBoundsInParent())){
+            c1.setStatus(false);
+
+        }
+        //Detener vehículo 2 y 3
+        if (pos.getId() != 1 && pos.getX() + 10 > 590){
             switch (pos.getId()){
-                case 1: c1.setStatus(false); break;
+                //case 1: c1.setStatus(false); break;
                 case 2: c2.setStatus(false); break;
                 case 3: c3.setStatus(false); break;
             }
